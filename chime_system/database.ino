@@ -30,20 +30,30 @@
  * month  | Value 1-12         |
  * =============================
  */
-void setup() {
-   struct {
-    String notes;
-    int day;
-    int month;
-  } song;
+#include <RTCLib.h>
+#include <list>
+
+  struct Song{
+    String songNotes;
+    Song(int month, int day, int hour, String notes) {
+      songNotes = notes;
+      DateTime time = DateTime(2000, month, day, hour); // year does not matter
+    }
+  };
+  list<Song> songs;
   // ====== ENTER SONGS BELOW HERE ======
-  song happyBDay;
-  happyBDay.notes = "" +
+  // Format: Song [song name](month, day, hour, notes);
+
+  // Define notes used in Happy Birthday
+  String happyBdayNotes = "" +
   "sA(0) sA(0) qB(0) qA(0) qD(0) hC#(0) sA(0) sA(0) qB(0) qA(0) " +
   "qE(0) hD(0) sA(0) sA(0) qA(1) qF#(0) qD(0) qC#(0) qB(0) sG(0) " +
   "sG(0) qF#(0) qD(0) qE(0) wD(0)";
-  happyBDay.day = 1;
-  happyBDay.month = 1;
-
-  song yourSongHere;
-}
+  
+  // Play Happy Birthday on December 30th at 11am
+  Song happyBDay1(12, 30, 11, happyBdayNotes);
+  songs.push_front(happyBDay1);
+  
+  // Play Happy Birthday on February 15th at 2pm *notes are already defined
+  Song happyBDay2(2, 15, 14, happyBdayNotes);
+  songs.push_front(happyBDay2);
