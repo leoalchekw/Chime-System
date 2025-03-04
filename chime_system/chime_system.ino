@@ -1,19 +1,18 @@
 // Define which pins the chimes are attached too
-int A0_nat = 24;
-int A0_sharp = 26;
-int B0_nat = 28;
-int C0_nat = 30;
-int C0_sharp = 22;
-int D0_nat = 32;
-int D0_sharp = 39;
-int E0_nat = 36;
-int F0_nat = 38;
-int F0_sharp = 39;  //Possibly pin 23?
-int G0_nat = 41;  //Possibly pin 25?
-int G0_sharp = 43;  //Possibly pin 27?
-int A1_nat = 45;  //Possibly pin 29?
-int A1_sharp = 47;  ///Possibly pin 31?
-int restPin = 0;
+#define A0_nat 24;
+#define A0_sharp 26;
+#define B0_nat 28;
+#define C0_nat 30;
+#define C0_sharp 22;
+#define D0_nat 32;
+#define D0_sharp 39;
+#define E0_nat 36;
+#define F0_nat 38;
+#define F0_sharp 39;  //Possibly pin 23?
+#define G0_nat 41;  //Possibly pin 25?
+#define G0_sharp 43;  //Possibly pin 27?
+#define A1_nat 45;  //Possibly pin 29?
+#define A1_sharp 47;  ///Possibly pin 31?
 
 
 
