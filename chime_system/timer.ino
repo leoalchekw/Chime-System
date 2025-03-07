@@ -1,9 +1,7 @@
-void setup() {
-  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
+song scanSongs() {
+  for (int i=0; songs.getSize(); i++) {
+    if (songs[i].month == now.month() && songs[i].day == now.day() && songs[i].hour == now.hour()) {
+      return songs[i];
+    }
+  }
 }
