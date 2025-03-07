@@ -1,136 +1,65 @@
+#include <ListLib.h>
+
+#include <RTClib.h>
+
+#include <List.hpp>
 // Define which pins the chimes are attached too
-#define A0_nat 24;
-#define A0_sharp 26;
-#define B0_nat 28;
-#define C0_nat 30;
-#define C0_sharp 22;
-#define D0_nat 32;
-#define D0_sharp 39;
-#define E0_nat 36;
-#define F0_nat 38;
-#define F0_sharp 39;  //Possibly pin 23?
-#define G0_nat 41;  //Possibly pin 25?
-#define G0_sharp 43;  //Possibly pin 27?
-#define A1_nat 45;  //Possibly pin 29?
-#define A1_sharp 47;  ///Possibly pin 31?
+int A0_nat = 24;
+int A0_sharp = 26;
+int B0_nat = 28;
+int C0_nat = 30;
+int C0_sharp = 22;
+int D0_nat = 32;
+int D0_sharp = 39;
+int E0_nat = 36;
+int F0_nat = 38;
+int F0_sharp = 39;  //Possibly pin 23?
+int G0_nat = 41;  //Possibly pin 25?
+int G0_sharp = 43;  //Possibly pin 27?
+int A1_nat = 45;  //Possibly pin 29?
+int A1_sharp = 47;  ///Possibly pin 31?
+int restPin = 0;
 
+typedef struct song{
+    int month;
+    int day;
+    int hour;
+    String notes;
+  };
 
+song create_song(int month, int day, int hour, String notes)
+{
+  song toReturn;
+  toReturn.month = month;
+  toReturn.day = day;
+  toReturn.hour = hour;
+  toReturn.notes = notes;
+  return toReturn;
+};
 
+List<song> songs;
+RTC_DS3231 rtc;
+DateTime now;
 
-// define functions for note length
-void sixteenthNote(int note)
-  {
-    digitalWrite(note, HIGH);
-    delay(188);
-    digitalWrite(note, LOW);
-    delay(62);
-  }
-
-
-  void sixteenthNoteRest(int note)
-  {
-    delay(188);
-    delay(62);
-  }
-
-
-
-
-void eighthNote(int note)
-  {
-    digitalWrite(note, HIGH);
-    delay(375);
-    digitalWrite(note, LOW);
-    delay(125);
-  }
-
-
-  void eighthNoteRest(int note)
-  {
-    delay(375);
-    delay(125);
-  }
-
-
-  void quarterNote(int note)
-  {
-    digitalWrite(note, HIGH);
-    delay(750);
-    digitalWrite(note, LOW);
-    delay(250);
-  }
-
-
-  void quarterNoteRest()
-  {
-    delay(750);
-    delay(250);
-  }
-
-
-  void halfNote(int note)
-  {
-    digitalWrite(note, HIGH);
-    delay(1500);
-    digitalWrite(note, LOW);
-    delay(500);
-  }
-
-
-  void halfNoteRest(int note)
-  {
-    delay(1500);
-    delay(500);
-  }
-
-
-  void wholeNote(int note)
-  {
-    digitalWrite(note, HIGH);
-    delay(3000);
-    digitalWrite(note, LOW);
-    delay(1000);
-  }
-
-
-  void wholeNoteRest(int note)
-  {
-    delay(3000);
-    delay(1000);
-  }
-
-
-    void fullScale()
-  {
-   
+void fullScale() {
     sixteenthNote(A0_nat);
-    sixteenthNoteRest();
+    sixteenthNote(restPin);
     eighthNote(B0_nat);
-    eightNoteRest();
+    eighthNote(restPin);
     quarterNote(C0_sharp);
-    quarterNoteRest();
+    quarterNote(restPin);
     halfNote(D0_nat);
-    halfNoteRest();
+    halfNote(restPin);
     wholeNote(E0_nat);
-    wholeNoteRest();
+    wholeNote(restPin);
     halfNote(F0_sharp);
-    halfNoteRest();
+    halfNote(restPin);
     quarterNote(G0_sharp);
-    quarternoteRest();
-    eightNote(A1_nat);
-
-
+    quarterNote(restPin);
+    eighthNote(A1_nat);
   }
-
-
-
-
+  
 void setup() {
-
-
-  // put your setup code here, to run once:
-
-
   // initialize the chime pins as outputs
   pinMode(A0_nat, OUTPUT);
   pinMode(A0_sharp, OUTPUT);
@@ -147,15 +76,17 @@ void setup() {
   pinMode(A1_nat, OUTPUT);
   pinMode(A1_sharp, OUTPUT);
 
-
+  if(!rtc.begin()) {
+    delay(1000);
+    setup();
+  }
 }
-
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
-
+  fullScale();
+  DateTime now = rtc.now();
+  song toPlay = scanSongs();
+  if (&toPlay != NULL) {
+    decodeSong(String(toPlay.notes));
+  }
 }
-
-
-
