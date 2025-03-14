@@ -1,81 +1,84 @@
 void decodeSong(String song) {
-  // pass in a copy of the string
-  if (song.length() > 0) {
-    int firstNoteEnd = song.indexOf(' ');
-    String firstNote = song.substring(0, firstNoteEnd);
-    decodeNote(firstNote);
-    song.remove(0, firstNoteEnd+1); // I think off by 1 error, so added 1
-    decodeSong(song);
+// Given a string of notes, song, decodes string into chime notes to be played
+// NOTE: the given string must end with a space!
+  if (song.length() > 0) { // if notes remain...
+    int firstNoteEnd = song.indexOf(' '); // get index of end of first note
+    String firstNote = song.substring(0, firstNoteEnd); // create substring containing only the first note
+    decodeNote(firstNote); // decode and play the first note
+    song.remove(0, firstNoteEnd+1); // remove the first note since it's already been played
+    decodeSong(song); // play the remainder of the song
   }  
 }
 
 void decodeNote(String note) {
-  char noteLength = note.charAt(0);
-  String noteName = note.substring(1, note.length());
+  char noteLength = note.charAt(0); //gets note length character, e.g 'e', 'q', etc, and stores in noteLength
+  String noteName = note.substring(1, note.length()); //gets the name of the note and stores it
 
   int chimePin;
 
-  if (noteName.equals("A(0)"))
+  // this if statement decodes the pitch into an output pin
+  if (noteName.equals("A#(1)"))
     {
-    chimePin = A0_nat;
+    chimePin = A1_sharp;
     }
-  else if (noteName.equals("A#(0)"))
+  else if (noteName.equals("B(1)"))
     {
-    chimePin = A0_sharp;
+    chimePin = B1_nat;
     }
-  else if (noteName.equals("B(0)"))
+  else if (noteName.equals("C(1)"))
     {
-    chimePin = B0_nat;
+    chimePin  = C1_nat;
     }
-  else if (noteName.equals("C(0)"))
+  else if (noteName.equals("C#(1)"))
     {
-    chimePin  = C0_nat;
-    }
-  else if (noteName.equals("C#(0)"))
-    {
-    chimePin  = C0_sharp;
+    chimePin  = C1_sharp;
     }
   else if (noteName.equals("D(0)"))
     {
     chimePin  = D0_nat;
     }
-  else if (noteName.equals("D#(0)"))
+  else if (noteName.equals("D(1)"))
     {
-    chimePin  = D0_sharp;
+    chimePin  = D1_nat;
     }
-  else if (noteName.equals("E(0)"))
+  else if (noteName.equals("D#(1)"))
     {
-    chimePin  = E0_nat;
+    chimePin  = D1_sharp;
     }
-  else if (noteName.equals("F(0)"))
+  else if (noteName.equals("E(1)"))
     {
-    chimePin  = F0_nat;
+    chimePin  = E1_nat;
     }
-  else if (noteName.equals("F#(0)"))
+  else if (noteName.equals("F(1)"))
     {
-    chimePin  = F0_sharp;
+    chimePin  = F1_nat;
     }
-  else if (noteName.equals("G(0)"))
+  else if (noteName.equals("F#(1)"))
     {
-    chimePin  = G0_nat;
+    chimePin  = F1_sharp;
     }
-  else if (noteName.equals("G#(0)"))
+  else if (noteName.equals("G(1)"))
     {
-    chimePin  = G0_sharp;
+    chimePin  = G1_nat;
     }
-  else if (noteName.equals("A(1)"))
+  else if (noteName.equals("G#(1)"))
     {
-    chimePin = A1_nat;
+    chimePin  = G1_sharp;
     }
-  else if (noteName.equals("A#(1)"))
+  else if (noteName.equals("A(2)"))
     {
-    chimePin = A1_sharp;
+    chimePin = A2_nat;
+    }
+  else if (noteName.equals("A#(2)"))
+    {
+    chimePin = A2_sharp;
     }
   else
     {
       chimePin  = restPin;
     }
 
+  // this if statement decodes the note length into a note that is played
   if (noteLength == 'e')
     {
       eighthNote(chimePin);
@@ -95,6 +98,7 @@ void decodeNote(String note) {
 }
 
 // define functions for note length
+// Parameter: note - output pin of target chime
 void eighthNote(int note)
   {
     digitalWrite(note, HIGH);
